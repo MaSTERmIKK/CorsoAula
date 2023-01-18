@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function verificaForm(){          
+                eventType = document.getElementById("eventType").value;
+                password = document.getElementById("password").value;
+
+                if (eventType == null || typeof eventType != "string" || eventType.length == 0) {
+                    window.alert("nome valore richiesto non inserito.")
+                    return false;
+                }
+
+                if (password == null || typeof password != "string" || password.length == 0) {
+                    window.alert("Password non inserita.")
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
+    </head>
+    <body>
+        <form action="http://127.0.0.1:8080/" id="form" name="form" method="GET" onsubmit="return verificaForm();">
+
+            <div>
+                <label for="eventType">Valore Richiesto:</label>
+                <input type="text" size="30" name="eventType" id="eventType" />
+            </div>
+
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" size="30" name="password" id="password" />
+            </div>
+
+            <br/>
+
+            <div>
+                <input type="reset" value="reset" />          
+                <input type="submit" value="submit" />
+            </div>
+
+        </form> 
+    </body>
+</html>

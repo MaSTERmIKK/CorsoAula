@@ -1,0 +1,4 @@
+exports.nome = "Stefano";
+exports.cognome = "Rettore";
+exports.punteggio = 10;
+exports.password = "Mononoke";

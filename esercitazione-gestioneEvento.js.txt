@@ -1,0 +1,57 @@
+const http = require("http");
+const url = require("url");
+const events = require("events");
+
+// carica modulo personale
+const personale = require("./esercitazione-modulo");
+
+// stampa parametro
+function stampaParametro(response, parametro, password) {
+    if (password !== personale.password) {
+        console.log("Password errata!");
+        response.writeHead(401, {'Content-Type': 'text/html'});
+        response.write("Password errata!");
+        response.end();
+    } else {
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        response.write(parametro.toString());
+        response.end();
+    }
+}
+
+// handlers
+var myNameHandler = function(response, password) {
+    stampaParametro(response, personale.nome, password);
+}
+
+var myCognomeHandler = function(response, password) {
+    stampaParametro(response, personale.cognome, password);
+}
+
+var myPunteggioHandler = function(response, password) {
+    stampaParametro(response, personale.punteggio, password);
+}
+
+// gestione eventi
+var eventEmitter = new events.EventEmitter();
+eventEmitter.on('nome', myNameHandler);
+eventEmitter.on('cognome', myCognomeHandler);
+eventEmitter.on('punteggio', myPunteggioHandler);
+
+// crea server
+http.createServer( (request, response) => {
+    var q = url.parse(request.url, true);
+    var params = q.query;
+
+    const eventNames = eventEmitter.eventNames();
+
+    if (eventNames.includes(params.eventType)) {
+        eventEmitter.emit(params.eventType, response, params.password);
+    } else {
+        response.writeHead(404, {'Content-Type': 'text/html'});
+        response.write("Risorsa non presente.");
+        response.end();
+    }
+}).listen(8080, () => {
+    console.log(`Server running at http://127.0.0.1:8080/`);
+});
