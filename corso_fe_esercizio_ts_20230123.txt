@@ -1,0 +1,32 @@
+const tentatives: number = 10;
+let insertsArray: any[] = [];
+let booleanArray: boolean[] = [];
+let stringArray: string[] = [];
+let numberArray: number[] = [];
+
+var rl = require('readline-sync');
+
+let index = 1;
+let userInput: any;
+
+while (index <= tentatives) {
+    let answer: any = rl.question("Inserisci un valore da categorizzare: ");
+    insertsArray.push(answer);
+    index++;
+}
+
+insertsArray.forEach((element: any) => {
+    if (!Number.isNaN(Number(element))) {
+        numberArray.push(element);
+    }
+    else if (element === 'false' || element === 'true') {
+        booleanArray.push(element);
+    }
+    else {
+        stringArray.push(element);
+    }
+});
+
+console.log(`booleanArray: ${booleanArray}`);
+console.log(`stringArray: ${stringArray}`);
+console.log(`numberArray: ${numberArray}`);
